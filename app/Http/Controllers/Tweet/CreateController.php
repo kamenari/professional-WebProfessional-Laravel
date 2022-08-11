@@ -17,9 +17,16 @@ class CreateController extends Controller
      */
     public function __invoke(CreateRequest $request)
     {
+        // ModelsのTweetから新しいインスタンスを作成
         $tweet = new Tweet;
-        $tweet->content = $request->tweet();
+
+        // CreateRequestを引数に指定しているので、サービスコンテナによりCreateRequestのインスタンス化したものが$requestに入る、$requestからCreateRequestで定義した関数のtweet()を実行して、contentに入れる
+        $tweet->content = $request->tweet(); 
+
+        // 保存を実行
         $tweet->save();
+
+        // /tweet画面にリダイレクト
         return redirect()->route('tweet.index');
     }
 }

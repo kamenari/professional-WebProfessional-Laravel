@@ -23,10 +23,15 @@
         </form>
     </div>
     <div>
-      @foreach($tweets as $tweet)
-          <p>{{ $tweet->content }}</p>
-          <p>{{ $tweet->updated_at }}</p>
-      @endforeach
+        @foreach($tweets as $tweet)
+        <details>
+            <summary>つぶやき内容:{{ $tweet->content }}</summary>
+            <div>
+                <p>更新日時:{{ $tweet->updated_at }}</p>
+                <a href="{{ route('tweet.update.index', ['tweetId' => $tweet->id]) }}">編集</a>
+            </div>
+        </details>
+        @endforeach
     </div>
 </body>
 </html>
