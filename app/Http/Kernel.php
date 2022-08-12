@@ -14,6 +14,7 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string>
      */
     protected $middleware = [
+        /** アプリケーション全体に作用させたいミドルウェアを登録するときはここに記述する **/
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
         \Illuminate\Http\Middleware\HandleCors::class,
@@ -53,6 +54,7 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $routeMiddleware = [
+        /** 特定のルートについてのみ作用させたいミドルウェアを登録するときにはここに記述する **/
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
@@ -63,5 +65,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'sample' => \App\Http\Middleware\SampleMiddleware::class, // 例
     ];
 }
