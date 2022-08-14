@@ -15,7 +15,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        $this->call([TweetsSeeder::class]);
+        $this->call([
+            UsersSeeder::class, //userを先に作って
+            TweetsSeeder::class //tweetを作る
+        ]);
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
