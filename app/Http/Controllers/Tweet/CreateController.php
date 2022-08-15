@@ -20,6 +20,9 @@ class CreateController extends Controller
         // ModelsのTweetから新しいインスタンスを作成
         $tweet = new Tweet;
 
+        // ここでUserIdを保存している
+        $tweet->user_id = $request->userId(); 
+        
         // CreateRequestを引数に指定しているので、サービスコンテナによりCreateRequestのインスタンス化したものが$requestに入る、$requestからCreateRequestで定義した関数のtweet()を実行して、contentに入れる
         $tweet->content = $request->tweet(); 
 

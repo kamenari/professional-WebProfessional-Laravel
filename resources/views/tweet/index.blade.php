@@ -30,15 +30,25 @@
     <div>
         @foreach($tweets as $tweet)
         <details>
-            <summary>つぶやき内容:{{ $tweet->content }}</summary>
+            <summary>
+                <span>つぶやき内容:{{ $tweet->content }}</span>
+                <br>
+                <span>ユーザー名{{ $tweet->user->name }}</span>
+            </summary>
             <div>
+                <p>作成日時:{{ $tweet->created_at }}</p>
                 <p>更新日時:{{ $tweet->updated_at }}</p>
-                <a href="{{ route('tweet.update.index', ['tweetId' => $tweet->id]) }}">編集</a>
-                <form action="{{ route('tweet.delete', ['tweetId' => $tweet->id]) }}" method="post">
+                @if(\Illuminate\Support\Facades\Auth::id() === $tweet->user_id) 
+                {{-- ログインしているユーザーのidとtweetのuser_idが一致しているか確認 --}}
+                    <a href="{{ route('tweet.update.index', ['tweetId' => $tweet->id]) }}">編集</a>
+                    <form action="{{ route('tweet.delete', ['tweetId' => $tweet->id]) }}" method="post">
                     @method('DELETE')
                     @csrf
                     <button type="submit">削除</button>
-                </form>
+                    </form>
+                @else
+                    編集、削除はできません
+                @endif
             </div>
         </details>
         @endforeach

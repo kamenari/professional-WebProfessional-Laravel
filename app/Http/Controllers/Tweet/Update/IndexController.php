@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Tweet\Update;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Tweet;
+use App\Services\TweetService;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class IndexController extends Controller
 {
@@ -15,14 +17,18 @@ class IndexController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, TweetService $tweetService)
     {   
         // RequestからパスのtweetIdを取得
         $tweetId = (int) $request->route('tweetId');
 
+        // tweetServiceからcheckOwnTweetを呼び出し、useのidとtweetIdを渡して、falseが帰ってきた場合は、403エラーに飛ばす
+        if (!$tweetService->checkOwnTweet($request->user()->id, $tweetId)) {
+            throw new AccessDeniedHttpException();
+        }
+
         // ModelsのEloquentモデルであるTweetのクエリビルダを使いidで検索、first()で1件のみ取得、where('id', $tweetId)でidが$tweetIdのレコードを検索
         // $tweet = Tweet::where('id', $tweetId)->first();
-
         // firstOrFail()で検索結果がない場合の例外になり、キャッチしない場合は404になる
         $tweet = Tweet::where('id', $tweetId)->firstOrFail();
 
