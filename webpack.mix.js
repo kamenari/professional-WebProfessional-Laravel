@@ -17,3 +17,8 @@ mix.js('resources/js/app.js', 'public/js')
     require('tailwindcss'),
     require('autoprefixer'),
 ]).version();
+
+// 本番用のビルド時のみにバージョニングする場合
+// if (mix.inProduction()) {
+//   mix.version();
+// }
