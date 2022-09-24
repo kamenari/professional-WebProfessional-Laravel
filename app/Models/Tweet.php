@@ -14,4 +14,10 @@ class Tweet extends Model
         // TweetモデルからUserモデルへの関連付け
         return $this->belongsTo(User::class);
     }
+
+    public function images()
+    {   
+        // Tweetモデルから交差テーブル(tweet_images)を利用したImageモデルとの紐付け
+        return $this->belongsToMany(Image::class, 'tweet_images')->using(TweetImage::class);
+    }
 }
