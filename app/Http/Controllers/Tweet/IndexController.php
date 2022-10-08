@@ -20,7 +20,8 @@ class IndexController extends Controller
         // $tweets = Tweet::orderBy('created_at', 'DESC')->get(); //降順
         // $tweetService = new TweetService(); // TweetServiceのインスタンスを作成
         $tweets = $tweetService->getTweets(); // TweetServiceインスタンスからgetTweets()を実行してつぶやき一覧を取得
-        // dd($tweets);
+        // dump($tweets);
+        // app(\App\Exceptions\Handler::class)->render(request(), throw('dump report'));
         return view('tweet.index')
             ->with('tweets', $tweets);
     }

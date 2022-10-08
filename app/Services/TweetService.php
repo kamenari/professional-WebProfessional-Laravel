@@ -8,8 +8,9 @@ use Carbon\Carbon;
 class TweetService
 {
     public function getTweets()
-    {
-        return Tweet::orderBy('created_at', 'DESC')->get();
+    {   
+        // Tweetの取得時にImageも取得
+        return Tweet::with('images')->orderBy('created_at', 'DESC')->get();
     }
 
     // 自分のtweetかどうかをチェックするメソッド
