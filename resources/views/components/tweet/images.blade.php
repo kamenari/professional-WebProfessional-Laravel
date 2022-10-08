@@ -1,7 +1,7 @@
 @props([
     'images' => []
 ])
-@dump($images)
+{{-- @dump($images) --}}
 @if(count($images) > 0)
 <div x-data="{}" class="px-2">
     <div class="flex justify-center -mx-2">
