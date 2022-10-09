@@ -25,7 +25,11 @@ class CreateRequest extends FormRequest
     {
         return [
             // 140文字以内で必須のバリデーションを追加
-            'tweet' => 'required|max:140'
+            'tweet' => 'required|max:140',
+            // 必須ではないが、最大4件のバリデーション
+            'images' => 'array|max:4',
+            // 画像の形式とファイルサイズのバリデーション
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
 
@@ -39,5 +43,11 @@ class CreateRequest extends FormRequest
     {   
         // formからpostされたname="tweet"の内容を取得
         return $this->input('tweet');
+    }
+
+    public function images(): array
+    {
+        // 画像の取得
+        return $this->file('images', []);
     }
 }
