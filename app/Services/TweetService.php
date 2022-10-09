@@ -34,6 +34,7 @@ class TweetService
             ->count();
     }
 
+    // つぶやきと画像を保存する処理
     public function saveTweet(int $userId, string $content, array $images)
     {
         DB::transaction(function () use ($userId, $content, $images) {
@@ -48,6 +49,24 @@ class TweetService
                 $imageModel->save();
                 $tweet->images()->attach($imageModel->id);
             }
+        });
+    }
+
+    // つぶやきと紐付いた画像を削除する処理
+    public function deleteTweet(int $tweetId)
+    {
+        DB::transaction(function () use ($tweetId) {
+            $tweet = Tweet::where('id', $tweetId)->firstOrFail();
+            $tweet->images()->each(function ($image) use ($tweet){
+                $filePath = 'public/images/' . $image->name;
+                if(Storage::exists($filePath)){
+                    Storage::delete($filePath);
+                }
+                $tweet->images()->detach($image->id);
+                $image->delete();
+            });
+    
+            $tweet->delete();
         });
     }
 }
